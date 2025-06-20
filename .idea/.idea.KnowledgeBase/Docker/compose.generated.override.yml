@@ -1,0 +1,20 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  knowledgebase.api:
+    build:
+      context: "D:\\PersonalProjects\\KnowledgeBase"
+      dockerfile: "KnowledgeBase.API/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net9.0/KnowledgeBase.API.dll"
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "knowledgebase.api:dev"
+    ports: []
+    volumes:
+    - "D:\\PersonalProjects\\KnowledgeBase\\KnowledgeBase.API:/app:rw"
+    - "D:\\PersonalProjects\\KnowledgeBase:/src:rw"
+    - "C:\\Users\\Karim Tarek\\.nuget\\packages:/home/app/.nuget/packages"
+    working_dir: "/app"

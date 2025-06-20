@@ -1,0 +1,35 @@
+﻿services:
+  knowledgebase.api:
+    image: knowledgebase.api
+    build:
+      context: .
+      dockerfile: KnowledgeBase.API/Dockerfile
+    ports:
+      - "6061:6061" # Maps port 80 in the container to port 5000 on the host
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+  
+  # Your PostgreSQL Database service
+  postgres_db:
+    container_name: postgres_db # Naming the container for easier management
+    image: postgres:16-alpine # Using a specific, lightweight version is good practice
+    ports:
+      - "5432:5432" # Optional: expose the port to your host machine for debugging with a DB tool
+    environment:
+      - POSTGRES_DB=knowledgebase
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123123123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    # ADD THIS HEALTHCHECK BLOCK
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d knowledgebase" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
