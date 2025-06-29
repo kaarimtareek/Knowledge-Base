@@ -1,3 +1,4 @@
+using Common;
 using KnowledgeBase.API.Controllers.Base;
 using KnowledgeBase.API.DTOs;
 using KnowledgeBase.Core.CommandHandlers.Topics;
@@ -19,6 +20,7 @@ public class TopicsController : AppControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
     {
+        //this inline queries will be replaced with a query handler in the future
         var topics = await DbContext.Topics.AsNoTracking()
             .Select(x => new TopicDto(x.Id, x.Name, x.CreatedAt, x.UpdatedAt)).ToListAsync(cancellationToken);
         return Ok(topics);
@@ -27,13 +29,14 @@ public class TopicsController : AppControllerBase
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
     {
-        var topic = await DbContext.Topics.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        //this inline queries will be replaced with a query handler in the future
+        var topic = await DbContext.Topics.AsNoTracking()
+            .Select(x => new TopicDto(x.Id, x.Name, x.CreatedAt, x.UpdatedAt))
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         if (topic == null)
-        {
-            return NotFound();
-        }
+            return NotFound(ApiResponse<TopicDto>.Failure(ErrorMessages.NotFound(nameof(TopicDto))));
 
-        return Ok(TopicDto.FromEntity(topic));
+        return Ok(ApiResponse<TopicDto>.Success(topic));
     }
 
     [HttpPost]
@@ -41,6 +44,10 @@ public class TopicsController : AppControllerBase
     {
         var topicId = await Mediator.Send(command, cancellationToken);
 
-        return CreatedAtAction(nameof(GetById), new { id = topicId });
+        var topicDto = await DbContext.Topics.AsNoTracking()
+            .Where(x => x.Id == topicId)
+            .Select(x => new TopicDto(x.Id, x.Name, x.CreatedAt, x.UpdatedAt))
+            .FirstOrDefaultAsync(cancellationToken);
+        return CreatedAtAction(nameof(GetById), new { id = topicId }, topicDto);
     }
 }

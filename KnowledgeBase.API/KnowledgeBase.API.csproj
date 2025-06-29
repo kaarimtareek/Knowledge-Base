@@ -27,6 +27,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Common\Common.csproj" />
       <ProjectReference Include="..\KnowledgeBase.Core\KnowledgeBase.Core.csproj" />
       <ProjectReference Include="..\KnowledgeBase.Infrastructure\KnowledgeBase.Infrastructure.csproj" />
     </ItemGroup>

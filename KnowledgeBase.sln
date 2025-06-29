@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnowledgeBase.Infrastructur
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnowledgeBase.Tests", "KnowledgeBase.Tests\KnowledgeBase.Tests.csproj", "{C3ADEFFC-3582-4526-BA4B-C04FF2AAFFDB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{0E428D4E-5FC2-439A-B214-D27CBBF31C0F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,5 +37,9 @@ Global
 		{C3ADEFFC-3582-4526-BA4B-C04FF2AAFFDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3ADEFFC-3582-4526-BA4B-C04FF2AAFFDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3ADEFFC-3582-4526-BA4B-C04FF2AAFFDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E428D4E-5FC2-439A-B214-D27CBBF31C0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E428D4E-5FC2-439A-B214-D27CBBF31C0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E428D4E-5FC2-439A-B214-D27CBBF31C0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E428D4E-5FC2-439A-B214-D27CBBF31C0F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
