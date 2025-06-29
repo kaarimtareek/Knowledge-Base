@@ -1,6 +1,6 @@
 ﻿using KnowledgeBase.Core.Models;
 
-namespace KnowledgeBase.API.DTOs;
+namespace KnowledgeBase.Core.Topics;
 
 public record TopicDto (Guid Id, string Name, DateTime CreatedAt = default, DateTime? UpdatedAt = null) 
 {
