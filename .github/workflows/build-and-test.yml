@@ -34,4 +34,4 @@ jobs:
     # 5. Runs all test projects found in the solution
     # The workflow will fail at this step if any test fails.
     - name: Execute tests
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --configuration Release --no-build --verbosity normal
