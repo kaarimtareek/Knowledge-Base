@@ -1,0 +1,37 @@
+name: .NET Build and Test
+
+# This workflow runs on every push to the 'main' branch
+on:
+  push:
+    branches: [ "main" ,"dev"]
+  pull_request:
+    branches: [ "main", "dev" ]
+
+jobs:
+  build-and-test:
+    # Use the latest version of Ubuntu for the runner
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Checks out your repository's code so the workflow can access it
+    - name: Check out code
+      uses: actions/checkout@v4
+
+    # 2. Sets up the specified .NET SDK version
+    - name: Setup .NET 9
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+
+    # 3. Restores the NuGet packages for all projects in the solution
+    - name: Restore dependencies
+      run: dotnet restore
+
+    # 4. Builds the entire solution in Release configuration
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+
+    # 5. Runs all test projects found in the solution
+    # The workflow will fail at this step if any test fails.
+    - name: Execute tests
+      run: dotnet test --no-build --verbosity normal
