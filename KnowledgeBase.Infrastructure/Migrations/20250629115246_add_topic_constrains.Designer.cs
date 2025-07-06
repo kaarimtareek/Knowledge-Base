@@ -3,6 +3,7 @@ using System;
 using KnowledgeBase.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KnowledgeBase.Infrastructure.Migrations
 {
     [DbContext(typeof(KnowledgeBaseDbContext))]
-    partial class KnowledgeBaseDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250629115246_add_topic_constrains")]
+    partial class add_topic_constrains
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

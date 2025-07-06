@@ -21,7 +21,6 @@ public class KnowledgeBaseDbContext : DbContext, IApplicationDbContext
         ApplyGlobalFilters(modelBuilder);
     }
 
-    
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
@@ -47,14 +46,14 @@ public class KnowledgeBaseDbContext : DbContext, IApplicationDbContext
         var softDeletableEntityTypes = modelBuilder.Model.GetEntityTypes()
             .Where(et => typeof(ISoftDeletable).IsAssignableFrom(et.ClrType));
         // Apply the filter to each of them
-        foreach (var entityType in softDeletableEntityTypes.Select(x=> x.ClrType))
+        foreach (var entityType in softDeletableEntityTypes.Select(x => x.ClrType))
         {
             modelBuilder.Entity(entityType)
                 .HasQueryFilter(ConvertToDeleteFilter(entityType));
         }
     }
 
-// It's cleaner to extract the lambda creation to a helper method
+    // It's cleaner to extract the lambda creation to a helper method
     private static LambdaExpression ConvertToDeleteFilter(Type type)
     {
         // e => !EF.Property<bool>(e, "IsDeleted")
@@ -71,7 +70,8 @@ public class KnowledgeBaseDbContext : DbContext, IApplicationDbContext
         // Custom logic before saving changes, e.g., setting timestamps or auditing
         foreach (var entry in ChangeTracker.Entries())
         {
-            if ((entry.State == EntityState.Added || entry.State == EntityState.Modified) && entry.Entity is BaseEntity baseEntity)
+            if ((entry.State == EntityState.Added || entry.State == EntityState.Modified) &&
+                entry.Entity is BaseEntity baseEntity)
             {
                 // Set timestamps
                 if (entry.State == EntityState.Added)
