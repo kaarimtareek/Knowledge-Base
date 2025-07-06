@@ -2,8 +2,10 @@ using FluentValidation;
 using KnowledgeBase.API.Extensions;
 using KnowledgeBase.Core;
 using KnowledgeBase.Core.Interfaces;
+using KnowledgeBase.Core.Interfaces.Validations;
 using KnowledgeBase.Core.Topics;
 using KnowledgeBase.Core.Topics.Validators;
+using KnowledgeBase.Core.ValidationServices;
 using KnowledgeBase.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +21,9 @@ builder.Services.AddValidatorsFromAssembly(typeof(CreateTopicCommandValidator).A
 
 // 3. Register the ValidationBehavior as a pipeline behavior for MediatR
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
+//Register services 
+builder.Services.AddScoped<ITopicValidatorChecker, TopicValidatorChecker>();
 
 builder.Services.AddDbContext<KnowledgeBaseDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("KnowledgeBaseConnection")));

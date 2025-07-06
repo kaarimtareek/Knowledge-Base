@@ -1,7 +1,7 @@
 ﻿namespace Common
 {
 
-    public static class ErrorMessages
+    public static class ErrorGenerators
     {
         private static List<string> Vowels = new List<string> { "a", "A", "e", "E", "i", "I", "o", "O", "u", "U" };
         public static string AlreadyExists(string objectName, string propName) => $"{AddStartLetter(objectName.ToLower())} already exists with the same {propName.ToLower()} !";
@@ -20,7 +20,6 @@
         public static string MustHaveUniqueIP() => $"Must have a unique IP!";
         public static string MustHaveUniqueKey() => $"Must have a unique Key!";
         public static string MustHaveUniqueAddress() => $"Must have a unique address!";
-
         public static string BadRequest(string msg) => msg;
 
     }

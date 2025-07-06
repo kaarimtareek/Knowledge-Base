@@ -1,4 +1,5 @@
 ﻿using Common;
+using KnowledgeBase.Core.ErrorMessages;
 using KnowledgeBase.Core.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -16,14 +17,16 @@ public class DeleteTopicCommandHandler : BaseHandler, IRequestHandler<DeleteTopi
 
     public async Task<OperationResult<Guid>> Handle(DeleteTopicCommand request, CancellationToken cancellationToken)
     {
-        var updatedNumber = await _context.Topics.Where(x => x.Id == request.Id).ExecuteUpdateAsync(s => s
-            .SetProperty(x =>
-                x.IsDeleted, true).SetProperty(x => x.UpdatedAt, DateTime.Now), cancellationToken);
-
-        if(updatedNumber == 0)
+        var topic = await _context.Topics
+            .Where(x => x.Id == request.Id)
+            .FirstOrDefaultAsync(cancellationToken);
+        if (topic == null)
         {
-            return OperationResult<Guid>.Failure(ErrorMessages.NotFound("Topic"));
+            return OperationResult<Guid>.Failure(TopicErrorMessages.NotFound);
         }
+        topic.Delete();
+        _context.Topics.Update(topic);
+        await _context.SaveChangesAsync(cancellationToken);
 
         return OperationResult<Guid>.Success(request.Id);
     }

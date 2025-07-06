@@ -1,29 +1,28 @@
 ﻿using FluentValidation;
+using KnowledgeBase.Core.ErrorMessages;
 using KnowledgeBase.Core.Interfaces;
+using KnowledgeBase.Core.Interfaces.Validations;
 using Microsoft.EntityFrameworkCore;
 
 namespace KnowledgeBase.Core.Topics.Validators;
 
 public class CreateTopicCommandValidator : AbstractValidator<CreateTopicCommand>
 {
-    private readonly IApplicationDbContext _context;
     
-    public CreateTopicCommandValidator(IApplicationDbContext context)
+    public CreateTopicCommandValidator(ITopicValidatorChecker topicValidator)
     {
-        _context = context;
         RuleFor(x => x.Name)
             .NotEmpty()
-            .WithMessage("name is required.")
+            .WithMessage(TopicErrorMessages.NameRequired)
             .MaximumLength(100)
-            .WithMessage("Name must not exceed 100 characters.");
-        RuleFor(x => x.Name)
-            .MustAsync(BeUniqueNameAsync)
-            .WithMessage("A topic with this name already exists.");
+            .WithMessage(TopicErrorMessages.NameTooLong);
+        
+        RuleFor(x=> x)
+            .MustAsync(
+                async (command, cancellationToken)=> 
+                    await topicValidator.IsTopicNameUniqueAsync(command.Name, null, cancellationToken))
+            .WithMessage(TopicErrorMessages.AlreadyExists);
+
     }
-    private async Task<bool> BeUniqueNameAsync(string name, CancellationToken cancellationToken)
-    {
-        // This method should check the database to ensure the name is unique.
-        // For example:
-        return !await _context.Topics.AnyAsync(x => x.Name == name, cancellationToken);
-    }
+
 }

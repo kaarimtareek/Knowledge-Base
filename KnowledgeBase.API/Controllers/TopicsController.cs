@@ -74,7 +74,7 @@ public class TopicsController : AppControllerBase
             .FirstOrDefaultAsync(x => x.Name == command.Name.Trim() && x.Id != id, cancellationToken);
         if (existingTopic != null)
         {
-            return BadRequest(ApiResponse<TopicDto>.Failure(ErrorMessages.AlreadyExists("Topic", command.Name.Trim())));
+            return BadRequest(ApiResponse<TopicDto>.Failure(ErrorGenerators.AlreadyExists("Topic", command.Name.Trim())));
         }
 
         command.Id = id;
@@ -99,6 +99,7 @@ public class TopicsController : AppControllerBase
         var result = await Mediator.Send(new DeleteTopicCommand(id), cancellationToken);
         if (!result.IsSuccess)
         {
+            
             return NotFound(result.ToFailureApiResponse());
         }
 

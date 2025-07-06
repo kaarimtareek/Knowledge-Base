@@ -1,4 +1,5 @@
 ﻿using Common;
+using KnowledgeBase.Core.ErrorMessages;
 using KnowledgeBase.Core.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -21,9 +22,7 @@ public class GetTopicQueryHandler : BaseHandler, IRequestHandler<GetTopicQuery, 
             .Select(x => TopicDto.FromEntity(x))
             .FirstOrDefaultAsync(cancellationToken);
         if (topic == null)
-        {
-            return OperationResult<TopicDto>.Failure(ErrorMessages.NotFound("Topic"));
-        }
+            return OperationResult<TopicDto>.Failure(TopicErrorMessages.NotFound);
 
         return OperationResult<TopicDto>.Success(topic);
     }

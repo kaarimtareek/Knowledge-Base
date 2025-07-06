@@ -1,6 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Common;
-using Common.Constants;
+﻿using Common;
+using KnowledgeBase.Core.ErrorMessages;
 using KnowledgeBase.Core.Interfaces;
 using KnowledgeBase.Core.Models;
 using MediatR;
@@ -25,10 +24,6 @@ public class CreateTopicCommandHandler : BaseHandler, IRequestHandler<CreateTopi
         };
         await _context.Topics.AddAsync(topic, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
-        if (topic.Id == Guid.Empty)
-        {
-            return OperationResult<Guid>.Failure(ErrorMessages.BadRequest("Topic"));
-        }
 
         return OperationResult<Guid>.Success(topic.Id);
     }
