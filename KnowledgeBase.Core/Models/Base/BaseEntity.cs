@@ -10,5 +10,12 @@ public abstract class BaseEntity : ISoftDeletable
     public void Delete()
     {
         IsDeleted = true;
+        Update();
+
+    }
+
+    public void Update()
+    {
+        UpdatedAt = DateTime.UtcNow;
     }
 }

@@ -2,7 +2,7 @@
 services:
   knowledgebase.api:
     build:
-      context: "D:\\PersonalProjects\\KnowledgeBase"
+      context: "F:\\PersonalProjects\\Knowledge-Base"
       dockerfile: "KnowledgeBase.API/Dockerfile"
       target: "base"
     command: []
@@ -14,7 +14,7 @@ services:
     image: "knowledgebase.api:dev"
     ports: []
     volumes:
-    - "D:\\PersonalProjects\\KnowledgeBase\\KnowledgeBase.API:/app:rw"
-    - "D:\\PersonalProjects\\KnowledgeBase:/src:rw"
-    - "C:\\Users\\Karim Tarek\\.nuget\\packages:/home/app/.nuget/packages"
+    - "F:\\PersonalProjects\\Knowledge-Base\\KnowledgeBase.API:/app:rw"
+    - "F:\\PersonalProjects\\Knowledge-Base:/src:rw"
+    - "C:\\Users\\kimoo\\.nuget\\packages:/home/app/.nuget/packages"
     working_dir: "/app"
